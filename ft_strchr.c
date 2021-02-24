@@ -3,16 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cbrito-l <cbrito-l@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: cbrito-l <cbrito-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 04:24:53 by cbrito-l          #+#    #+#             */
-/*   Updated: 2021/02/24 04:25:09 by cbrito-l         ###   ########.fr       */
+/*   Updated: 2021/02/24 18:06:09 by cbrito-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#include "libft.h"
 
-char *ft_strchr(const char *s, int c)
+char	*ft_strchr(const char *s, int c)
 {
-
+	while (*s != c)
+	{
+		if (*s == '\0')
+			return (0);
+		s++;
+	}
+	return ((char *)s);
 }

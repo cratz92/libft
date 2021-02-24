@@ -6,7 +6,7 @@
 /*   By: cbrito-l <cbrito-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 23:53:01 by cbrito-l          #+#    #+#             */
-/*   Updated: 2021/02/24 17:25:45 by cbrito-l         ###   ########.fr       */
+/*   Updated: 2021/02/24 18:08:28 by cbrito-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-
+# include <string.h>
 
 
 int	ft_strlen(const char *s);
