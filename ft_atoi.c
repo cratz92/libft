@@ -28,8 +28,6 @@ int	ft_atoi(const char *str)
 	}
 	while (*str >= '0' && *str <= '9')
 	{
-		if ((nbr > 2147483647 && sign == 1) || (nbr > 2147483648 && sign == -1))
-			return (0);
 		nbr = (nbr * 10) + (*str - '0');
 		str++;
 	}
