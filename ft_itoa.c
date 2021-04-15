@@ -12,56 +12,54 @@
 
 #include "libft.h"
 
-static size_t	ft_nbr_size(long nl, int sign)
+static int	ft_nbr_size(long nl)
 {
-	size_t	size;
+	int	size;
 
 	if (!nl)
 		return (0);
 	size = 0;
+	if (nl < 0)
+	{
+		nl *= -1;
+		size++;
+	}
 	while (nl > 0 )
 	{
 		nl /= 10;
 		size++;
 	}
-	if (sign == -1)
-		size++;
 	return (size);
 }
 
-static void	ft_extra(char *str, long nl, size_t size, int sign)
+static void	ft_extra(char *str, long nl, int *i)
 {
-	str[size] = '\0';
-	str[--size] = nl % 10 + '0';
-	nl /= 10;
-	while (nl > 0)
+	if (nl > 9)
 	{
-		str[--size] = nl % 10 + '0';
-		nl /= 10;
+		ft_extra(str, nl / 10, i);
+		ft_extra(str, nl % 10, i);
 	}
-	if (sign == -1)
-		str[0] = '-';
+	else
+		str[(*i)++] = '0' + (nl % 10);
 }
 
 char	*ft_itoa(int n)
 {
 	long	nbr;
 	char	*number;
-	int		sign;
-	size_t	size;
+	int		i;
 
-	sign = 1;
-	if (n < 0)
-	{
-		nbr = (long)n * -1;
-		sign = -1;
-	}
-	else
-		nbr = n;
-	size = ft_nbr_size(nbr, sign);
-	number = malloc((size + 1) * sizeof(char));
+	nbr = n;
+	number = malloc((ft_nbr_size(n) + 1) * sizeof(char));
 	if (!number)
 		return (NULL);
-	ft_extra(number, nbr, size, sign);
+	i = 0;
+	if (nbr < 0)
+	{
+		number[i++] = '-';
+		nbr *= -1;
+	}
+	ft_extra(number, nbr, &i);
+	number[i] = '\0';
 	return (number);
 }

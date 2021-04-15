@@ -28,5 +28,5 @@ void	*ft_memset(void *s, int c, size_t n)
 		ptr[i] = letra;
 		i++;
 	}
-	return (str);
+	return ((void *)str);
 }

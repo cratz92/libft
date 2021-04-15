@@ -12,87 +12,97 @@
 
 #include "libft.h"
 
-static size_t	ft_array_size(char const *src, char c)
+static int	ft_wordcount(char const *str, char sep)
 {
-	size_t	size;
-	size_t	i;
+	int	i;
+	int	count;
 
-	if (!src)
+	if (str == 0 || str[0] == 0)
 		return (0);
-	size = 0;
-	i = 0;
-	if (src[i] && src[i] != c)
+	i = 1;
+	count = 0;
+	if (str[0] != sep)
+		count++;
+	while (str[i] != '\0')
 	{
-		size++;
+		if (str[i] != sep && str[i - 1] == sep)
+			count++;
 		i++;
 	}
-	while (src[i])
+	return (count);
+}
+
+static char	**ft_malloc(char const *str, char sep)
+{
+	int		len;
+	char	**tab_str;
+
+	if (!str)
+		return (0);
+	len = ft_wordcount(str, sep);
+	tab_str = malloc(sizeof(*tab_str) * (len + 1));
+	if (tab_str == 0)
 	{
-		while (src[i] == c)
-		{
-			i++;
-			if (src[i] != c && src[i])
-				size++;
-		}
+		return (0);
+	}
+	return (tab_str);
+}
+
+static int	ft_next_word_count(char const *str, char sep, int i)
+{
+	int	count;
+
+	count = 0;
+	while (str[i] == sep && str[i] != '\0')
+	{
 		i++;
 	}
-	return (size);
-}
-
-static char	**ft_free_mem(char **str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i])
-		free(str[i++]);
-	free(str);
-	return (NULL);
-}
-
-static void	ft_extra(char **nextStr, size_t *strLen, char c)
-{
-	size_t	i;
-
-	*nextStr += *strLen;
-	*strLen = 0;
-	i = 0;
-	while (**nextStr && **nextStr == c)
-		(*nextStr)++;
-	while ((*nextStr)[i])
+	while (str[i] != '\0' && str[i] != sep)
 	{
-		if ((*nextStr)[i] == c)
-			return ;
-		(*strLen)++;
+		count++;
 		i++;
 	}
+	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+static char	**ft_free(char **str_tab, int i)
 {
-	char		**arr;
-	char		*nextStr;
-	size_t		strLen;
-	size_t		nbr;
-	size_t		i;
+	int	j;
 
-	if (!s)
-		return (NULL);
-	nbr = ft_array_size(s, c);
-	arr = malloc(sizeof(char *) * (nbr + 1));
-	if (!arr)
-		return (NULL);
-	nextStr = (char *)s;
-	strLen = 0;
-	i = 0;
-	while (i < nbr)
+	j = 0;
+	while (j < i && str_tab[j] != 0)
 	{
-		ft_extra(&nextStr, &strLen, c);
-		arr[i] = malloc(sizeof(char) * (strLen + 1));
-		if (!(arr[i]))
-			return (ft_free_mem(arr));
-		ft_strlcpy(arr[i++], nextStr, strLen + 1);
+		free(str_tab[j]);
+		j++;
 	}
-	arr[i] = 0;
-	return (arr);
+	free(str_tab);
+	return (0);
+}
+
+char	**ft_split(char const *str, char charset)
+{
+	int		s;
+	int		i;
+	int		j;
+	char	**tab_str;
+
+	s = 0;
+	i = -1;
+	tab_str = ft_malloc(str, charset);
+	if (!tab_str)
+		return (0);
+	while (++i < ft_wordcount(str, charset))
+	{
+		j = 0;
+		tab_str[i] = malloc(ft_next_word_count(str, charset, s) + 1);
+		if (!(tab_str[i]))
+			return (ft_free(tab_str, i));
+		while (str[s] != '\0' && str[s] == charset)
+			s++;
+		while (str[s] != '\0' && str[s] != charset)
+			tab_str[i][j++] = str[s++];
+		tab_str[i][j] = '\0';
+	}
+	tab_str[i] = 0;
+	return (tab_str);
 }

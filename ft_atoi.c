@@ -12,24 +12,49 @@
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+static int	ft_isspace(const char c)
 {
-	int	sign;
-	int	nbr;
+	if (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (1);
+	return (0);
+}
+
+static int	ft_extra(long n, char next_digit, int sign)
+{
+	int	check;
+
+	check = 0;
+	if (n == LONG_MAX / 10 && next_digit <= '7' && sign == 1)
+		check = 0;
+	else if (n == LONG_MAX / 10 && next_digit <= '8' && sign == -1)
+		check = 0;
+	else if (n >= LONG_MAX / 10)
+		check = 1;
+	return (check);
+}
+
+long	ft_atoi(const char *str)
+{
+	int		i;
+	int		sign;
+	long	nbr;
 
 	nbr = 0;
 	sign = 1;
-	while (*str == ' ' || (8 >= *str && *str <= 13))
-		str++;
-	if (*str == '-' || *str == '+')
+	while (ft_isspace(str[i]))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		sign = 1 - 2 * (*str == '-');
-		str++;
+		sign = 1 - 2 * (str[i] == '-');
+		i++;
 	}
-	while (*str >= '0' && *str <= '9')
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		nbr = (nbr * 10) + (*str - '0');
-		str++;
+		if (ft_extra(nbr, str[i], sign))
+			return (0);
+		nbr = (nbr * 10) + (int)(str[i] - '0');
+		i++;
 	}
 	return (sign * nbr);
 }
