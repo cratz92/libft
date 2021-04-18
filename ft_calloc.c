@@ -14,17 +14,13 @@
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	size_t			space;
-	unsigned char	*ptr;
+	size_t	space;
+	void	*ptr;
 
 	space = nmemb * size;
 	ptr = malloc(space);
 	if (!ptr)
 		return (NULL);
-	while (*ptr)
-	{
-		*ptr = 0;
-		ptr++;
-	}
-	return ((void *)ptr);
+	ft_bzero(ptr, space);
+	return (ptr);
 }

@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-static unsigned int	get_nb_digit(long n_l, int sign)
+static size_t	get_nb_digit(long n_l, int sign)
 {
-	unsigned int	nb_digit;
+	size_t	nb_digit;
 
 	if (n_l == 0)
 		return (1);
@@ -29,7 +29,7 @@ static unsigned int	get_nb_digit(long n_l, int sign)
 	return (nb_digit);
 }
 
-static void			convert_nb(char *outstr, long n_l, unsigned int nb_digit,
+static void	convert_nb(char *outstr, long n_l, size_t nb_digit,
 		int sign)
 {
 	outstr[nb_digit] = '\0';
@@ -44,12 +44,12 @@ static void			convert_nb(char *outstr, long n_l, unsigned int nb_digit,
 		outstr[0] = '-';
 }
 
-char				*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
-	char			*outstr;
-	long			n_l;
-	unsigned int	nb_digit;
-	int				sign;
+	char	*outstr;
+	long	n_l;
+	size_t	nb_digit;
+	int		sign;
 
 	sign = 1;
 	if (n < 0)
@@ -60,7 +60,8 @@ char				*ft_itoa(int n)
 	else
 		n_l = n;
 	nb_digit = get_nb_digit(n_l, sign);
-	if (!(outstr = malloc(sizeof(char) * nb_digit + 1)))
+	outstr = malloc(sizeof(char) * nb_digit + 1);
+	if (!outstr)
 		return (NULL);
 	convert_nb(outstr, n_l, nb_digit, sign);
 	return (outstr);

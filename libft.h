@@ -6,7 +6,7 @@
 /*   By: cbrito-l <cbrito-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/23 23:53:01 by cbrito-l          #+#    #+#             */
-/*   Updated: 2021/04/15 01:39:00 by cbrito-l         ###   ########.fr       */
+/*   Updated: 2021/04/18 20:35:13 by cbrito-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char				*ft_strchr(const char *s, int c);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strnstr(const char *big, const char *little, size_t n);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-long				ft_atoi(const char *str);
+int					ft_atoi(const char *str);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
 int					ft_isalnum(int c);

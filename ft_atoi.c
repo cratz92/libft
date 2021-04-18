@@ -25,16 +25,16 @@ static int	ft_extra(long n, char next_digit, int sign)
 	int	check;
 
 	check = 0;
-	if (n == LONG_MAX / 10 && next_digit <= '7' && sign == 1)
+	if (n == INT_MAX / 10 && next_digit <= '7' && sign == 1)
 		check = 0;
-	else if (n == LONG_MAX / 10 && next_digit <= '8' && sign == -1)
+	else if (n == INT_MAX / 10 && next_digit <= '8' && sign == -1)
 		check = 0;
-	else if (n >= LONG_MAX / 10)
+	else if (n >= INT_MAX)
 		check = 1;
 	return (check);
 }
 
-long	ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	int		i;
 	int		sign;
@@ -42,12 +42,15 @@ long	ft_atoi(const char *str)
 
 	nbr = 0;
 	sign = 1;
+	i = 0;
+	if (str[0] == '\0')
+		return (0);
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
-		sign = 1 - 2 * (str[i] == '-');
-		i++;
+		if (str[i++] == '-')
+			sign *= -1;
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{

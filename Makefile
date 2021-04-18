@@ -60,7 +60,7 @@ SRCS = ft_memset.c		\
 
 OBJS := $(SRCS:%.c=$(PATH_BUILD)/%.o)
 DEPS := $(OBJS:.o=.d)
-INC_DIRS := $(shell find -type d)
+INC_DIRS := $(SRCS) $(OBJS)
 
 CC := gcc
 
@@ -90,8 +90,8 @@ fclean: clean
 re: fclean all
 
 so:
-	$(CC) -fPIC -c $(CC_FLAGS) $(SRCS)
-	gcc -shared -o libft.so $(OBJS)
+	@ $(CC) -fPIC -c $(CC_FLAGS) $(SRCS)
+	@ gcc -shared -o libft.so $(OBJS)
 
 .PHONY: all clean fclean re
 
