@@ -6,7 +6,7 @@
 /*   By: cbrito-l <cbrito-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 04:24:53 by cbrito-l          #+#    #+#             */
-/*   Updated: 2021/02/24 18:06:09 by cbrito-l         ###   ########.fr       */
+/*   Updated: 2021/04/18 03:17:39 by cbrito-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	while (*s != c)
+	char *ptr;
+
+	ptr = (char *)s;
+	if (!ptr)
+		return (0);
+	while (*ptr != (unsigned char)c)
 	{
-		if (*s == '\0')
+		if (*ptr == '\0')
 			return (0);
-		s++;
+		ptr++;
 	}
-	return ((char *)s);
+	return (ptr);
 }

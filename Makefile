@@ -10,6 +10,10 @@
 #                                                                              #
 # **************************************************************************** #
 
+NAME := libft.a
+
+PATH_BUILD := build
+
 SRCS = ft_memset.c		\
 		ft_bzero.c		\
 		ft_memcpy.c		\
@@ -43,9 +47,8 @@ SRCS = ft_memset.c		\
 		ft_putchar_fd.c	\
 		ft_putstr_fd.c	\
 		ft_putendl_fd.c	\
-		ft_putnbr_fd.c
-
-SRCSB =	ft_lstnew.c			\
+		ft_putnbr_fd.c	\
+		ft_lstnew.c			\
 		ft_lstadd_front.c	\
 		ft_lstsize.c		\
 		ft_lstlast.c		\
@@ -53,41 +56,43 @@ SRCSB =	ft_lstnew.c			\
 		ft_lstclear.c		\
 		ft_lstdelone.c		\
 		ft_lstiter.c		\
-		ft_lstmap.c			\
-		$(SRCS)
+		ft_lstmap.c
 
-NAME = libft.a
+OBJS := $(SRCS:%.c=$(PATH_BUILD)/%.o)
+DEPS := $(OBJS:.o=.d)
+INC_DIRS := $(shell find -type d)
 
-OBJS_DIR = objs/
-OBJS = $(SRCS:.c=.o)
-OBJECTS_PREFIXED = $(addprefix $(OBJS_DIR), $(OBJS))
+CC := gcc
 
-OBJSB = $(SRCSB:.c=.o)
-OBJECTS_BONUS_PREFIXED = $(addprefix $(OBJS_DIR), $(OBJSB))
-
-CC = gcc
-
-CC_FLAGS = -Wall -Wextra -Werror
-
-$(OBJS_DIR)%.o : %.c libft.h
-	@mkdir -p $(OBJS_DIR)
-	@echo "Compiling: $<"
-	@$(CC) $(CC_FLAGS) -g -c $< -o $@
-
-$(NAME): $(OBJECTS_PREFIXED)
-	@ar r $(NAME) $(OBJECTS_PREFIXED)
-	@echo "Libft Done - bonus not included !"
+N_FLAGS := -Wall -Wextra -Werror
+I_FLAGS := $(addprefix -I, $(INC_DIRS))
+M_FLAGS := -MMD -MP
+D_FLAGS := -g
+CC_FLAGS := $(N_FLAGS) $(I_FLAGS) $(M_FLAGS) $(D_FLAGS)
 
 all: $(NAME)
 
+$(NAME): $(OBJS)
+	@ ar rcs $@ $(OBJS)
+
+bonus: all
+
+$(PATH_BUILD)/%.o: %.c
+	@ mkdir -p $(dir $@)
+	@ $(CC) $(CC_FLAGS) -c $< -o $@
+
 clean:
-	rm -rf $(OBJS_DIR)
+	@ rm -rf $(PATH_BUILD)
 
 fclean: clean
-	rm -f $(NAME)
+	@ rm -rf $(NAME)
 
 re: fclean all
 
-bonus: $(OBJECTS_BONUS_PREFIXED)
-	@ar r $(NAME) $(OBJECTS_BONUS_PREFIXED)
-	@echo "Libft Done w/ bonus !!"
+so:
+	$(CC) -fPIC -c $(CC_FLAGS) $(SRCS)
+	gcc -shared -o libft.so $(OBJS)
+
+.PHONY: all clean fclean re
+
+-include $(DEPS)
