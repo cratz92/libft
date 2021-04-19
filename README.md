@@ -130,3 +130,12 @@ of data.
   * next : The next element’s address or NULL if it’s the last element
 
 You are free to add any function to your libft as you see fit.
+
+
+## Evaluation
+
+Tested with Tripouille, jtoty and alelievr auto-tests.
+In accordance with the Norm v3
+
+**Final Grade: 115/100 
+
