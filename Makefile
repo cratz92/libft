@@ -10,9 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME := libft.a
-
-PATH_BUILD := build
+NAME = libft.a
 
 SRCS = ft_memset.c		\
 		ft_bzero.c		\
@@ -47,8 +45,9 @@ SRCS = ft_memset.c		\
 		ft_putchar_fd.c	\
 		ft_putstr_fd.c	\
 		ft_putendl_fd.c	\
-		ft_putnbr_fd.c	\
-		ft_lstnew.c			\
+		ft_putnbr_fd.c
+
+BONUS =	ft_lstnew.c			\
 		ft_lstadd_front.c	\
 		ft_lstsize.c		\
 		ft_lstlast.c		\
@@ -58,41 +57,35 @@ SRCS = ft_memset.c		\
 		ft_lstiter.c		\
 		ft_lstmap.c
 
-OBJS := $(SRCS:%.c=$(PATH_BUILD)/%.o)
-DEPS := $(OBJS:.o=.d)
-INC_DIRS := $(SRCS) $(OBJS)
+OBJS = $(SRCS:.c=.o)
+BONUS_OBJS = $(BONUS:.c=.o)
+DEPS = $(OBJS:.o=.d)
+DEPS_BONUS = $(BONUS_OBJS:.o=.d)
 
-CC := gcc
+CC = gcc
+RM = rm -f
+CFLAGS = -Wall -Wextra -Werror -I.
 
-N_FLAGS := -Wall -Wextra -Werror
-I_FLAGS := $(addprefix -I, $(INC_DIRS))
-M_FLAGS := -MMD -MP
-D_FLAGS := -g
-CC_FLAGS := $(N_FLAGS) $(I_FLAGS) $(M_FLAGS) $(D_FLAGS)
+all:		$(NAME)
 
-all: $(NAME)
-
-$(NAME): $(OBJS)
-	@ ar rcs $@ $(OBJS)
-
-bonus: all
-
-$(PATH_BUILD)/%.o: %.c
-	@ mkdir -p $(dir $@)
-	@ $(CC) $(CC_FLAGS) -c $< -o $@
+$(NAME):	$(OBJS)
+	@ ar rcs $(NAME) $(OBJS)
 
 clean:
-	@ rm -rf $(PATH_BUILD)
+	@ $(RM) $(OBJS) $(BONUS_OBJS)
 
-fclean: clean
-	@ rm -rf $(NAME)
+fclean:		clean
+	@ $(RM) $(NAME)
 
-re: fclean all
+re:			fclean $(NAME)
+
+bonus:		$(OBJS) $(BONUS_OBJS)
+	@ ar rcs $(NAME) $(OBJS) $(BONUS_OBJS)
+
+.PHONY:		all clean fclean re bonus
 
 so:
-	@ $(CC) -fPIC -c $(CC_FLAGS) $(SRCS)
-	@ gcc -shared -o libft.so $(OBJS)
+	@ $(CC) -fPIC -c $(CFLAGS) $(SRCS) $(BONUS)
+	@ gcc -shared -o libft.so $(OBJS) $(BONUS_OBJS)
 
-.PHONY: all clean fclean re
-
--include $(DEPS)
+-include $(DEPS) $(DEPS_BONUS)
