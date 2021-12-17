@@ -6,33 +6,33 @@
 /*   By: cbrito-l <cbrito-l@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/24 03:09:27 by cbrito-l          #+#    #+#             */
-/*   Updated: 2021/04/14 12:58:21 by cbrito-l         ###   ########.fr       */
+/*   Updated: 2021/12/17 19:39:53 by cbrito-l         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dest, const char *src, size_t destSize)
+size_t	ft_strlcat(char *dest, const char *src, size_t destsize)
 {
-	size_t	destLen;
-	size_t	srcLen;
+	size_t	destlen;
+	size_t	srclen;
 	size_t	i;
 
 	i = 0;
-	destLen = ft_strlen(dest);
-	srcLen = ft_strlen(src);
-	if (destSize < 1)
-		return (srcLen + destSize);
-	else if (destSize < destLen)
-		return (srcLen + destSize);
+	destlen = ft_strlen(dest);
+	srclen = ft_strlen(src);
+	if (destsize < 1)
+		return (srclen + destsize);
+	else if (destsize < destlen)
+		return (srclen + destsize);
 	else
 	{
-		while ((src[i] != '\0') && (destLen + i < destSize - 1))
+		while ((src[i] != '\0') && (destlen + i < destsize - 1))
 		{
-			dest[destLen + i] = src[i];
+			dest[destlen + i] = src[i];
 			i++;
 		}
 	}
-	dest[destLen + i] = '\0';
-	return (destLen + srcLen);
+	dest[destlen + i] = '\0';
+	return (destlen + srclen);
 }
